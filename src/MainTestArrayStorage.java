@@ -2,9 +2,11 @@
  * Test for your ArrayStorage implementation
  */
 public class MainTestArrayStorage {
+    //создали хранилище резюме
     static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) {
+        //создаются объеты Резюме
         Resume r1 = new Resume();
         r1.uuid = "uuid1";
         Resume r2 = new Resume();
@@ -12,10 +14,12 @@ public class MainTestArrayStorage {
         Resume r3 = new Resume();
         r3.uuid = "uuid3";
 
+        //Резюме добавляются в массив
         ARRAY_STORAGE.save(r1);
         ARRAY_STORAGE.save(r2);
         ARRAY_STORAGE.save(r3);
 
+        //выводим информацию на экран
         System.out.println("Get r1: " + ARRAY_STORAGE.get(r1.uuid));
         System.out.println("Size: " + ARRAY_STORAGE.size());
 
