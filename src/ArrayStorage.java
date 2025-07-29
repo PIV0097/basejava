@@ -9,26 +9,26 @@ public class ArrayStorage {
     private int size = 0;
 
     void clear() {
-        Arrays.fill(storage, null);
+        Arrays.fill(storage, 0, size, null);
         size = 0;
     }
 
-    void save(Resume r) {//метод для сохранения резюме в массиве
+    void save(Resume r) {
         if (r == null)
             throw new IllegalArgumentException("Resume не может быть null");
-        if (size() >= storage.length) {
+        if (size >= storage.length) {
             throw new IllegalArgumentException("Хранилище переполнено");
         }
-        storage[size()] = r;
+        storage[size] = r;
         size++;
     }
 
-
     Resume get(String uuid) {
-        for (int i = 0; i < size(); i++) {
-            if (uuid == null) {
-                throw new IllegalArgumentException("UUID не может быть null");
-            }
+        if (uuid == null) {
+            throw new IllegalArgumentException("UUID не может быть null");
+        }
+
+        for (int i = 0; i < size; i++) {
             if (storage[i].uuid.equals(uuid)) {
                 return storage[i];
             }
@@ -36,39 +36,27 @@ public class ArrayStorage {
         return null;
     }
 
-    //удаляет резюме из массива
     void delete(String uuid) {
-        int indexToDelete = -1;
-
         if (uuid == null) {
             throw new IllegalArgumentException("UUID не может быть пустым");
         }
 
-        for (int i = 0; i < size(); i++) {
-            if (storage[i] != null && storage[i].uuid.equals(uuid)) {
-                indexToDelete = i;
-                break;
+        for (int i = 0; i < size; i++) {
+            if (uuid.equals(storage[i].uuid)) {
+                storage[i] = storage[size - 1];
+                storage[size - 1] = null;
+                size--;
+                return;
             }
         }
-
-        if (indexToDelete == -1) {
-            System.out.println("Элемент не найден");
-            return;
-        }
-
-        for (int i = indexToDelete; i < size() - 1; i++) {
-            storage[i] = storage[i + 1];
-        }
-
-        storage[size() - 1] = null;
-        size--;
+        throw new IllegalArgumentException("Резюме с UUID '" + uuid + "' не найдено");
     }
 
     Resume[] getAll() {
-        return Arrays.copyOf(storage, size());
+        return Arrays.copyOf(storage, size);
     }
 
-    int size() {//количесиво резюме в хранилище
+    int size() {
         return size;
     }
 
