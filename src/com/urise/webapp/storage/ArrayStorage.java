@@ -8,8 +8,9 @@ import java.util.Arrays;
  * Array based storage for Resumes
  * Хранилище на основе массива для резюме
  */
-public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
+public class ArrayStorage implements Storage {
+    private static final int STORAGE_LIMIT = 10000;
+    Resume[] storage = new Resume[STORAGE_LIMIT];
     private int size = 0;
 
     public void clear() {
@@ -33,7 +34,7 @@ public class ArrayStorage {
         if (r == null)
             throw new IllegalArgumentException("Resume не может быть null");
 
-        if (size >= storage.length) {
+        if (size >= STORAGE_LIMIT) {
             throw new IllegalArgumentException("Хранилище переполнено");
         }
 
@@ -83,9 +84,8 @@ public class ArrayStorage {
 
     /**
      * Возвращает индекс найденного элемента, будет исвользоваться в методах класса для исключения дублирования кода
-     * <p>
-     * Принимает uuid, при помощи цикла проходит по каждому элементу storage,
-     * если uuid совпадают, возвращает индекс, если нет -1
+     * @param uuid идентификатор резюме для поиска
+     * @return индекс резюме в массиве storage или -1 если не найдено
      */
     private int getIndex(String uuid) {
         for (int i = 0; i < size; i++) {

@@ -8,7 +8,7 @@ import com.urise.webapp.storage.ArrayStorage;
  */
 public class MainTestArrayStorage {
     //создали хранилище резюме
-    static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
+    private static final ArrayStorage ARRAY_STORAGE = new ArrayStorage();
 
     public static void main(String[] args) {
         //создаются объеты Резюме
