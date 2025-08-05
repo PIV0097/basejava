@@ -1,6 +1,7 @@
 package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
+
 import java.util.Arrays;
 
 /**
@@ -16,11 +17,29 @@ public class ArrayStorage {
         size = 0;
     }
 
+    public void update(Resume r) {
+        if (r == null)
+            throw new IllegalArgumentException("Resume не может быть null");
+
+        for (int i = 0; i < size; i++) {
+            if (r.getUuid().equals(storage[i].getUuid())) {
+                storage[i] = r;
+                return;
+            }
+        }
+        System.out.println("Резюме не обновлено, отсутствует в базе данных");
+    }
+
     public void save(Resume r) {
         if (r == null)
-            throw new IllegalArgumentException("com.urise.webapp.model.Resume не может быть null");
+            throw new IllegalArgumentException("Resume не может быть null");
         if (size >= storage.length) {
             throw new IllegalArgumentException("Хранилище переполнено");
+        }
+        for (int i = 0; i < size; i++) {
+            if (r.getUuid().equals(storage[i].getUuid())) {
+                throw new IllegalArgumentException("Резюме с uuid" + r.getUuid() + " уже есть в базе данных");
+            }
         }
         storage[size] = r;
         size++;
@@ -36,6 +55,7 @@ public class ArrayStorage {
                 return storage[i];
             }
         }
+        System.out.println("Резюме с uuid " + uuid + " нет в базе данных");
         return null;
     }
 
