@@ -10,36 +10,31 @@ import java.util.Arrays;
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
-    public void clear() {
-        Arrays.fill(storage, 0, size, null);
-        size = 0;
-    }
-
     public void update(Resume r) {
         if (r == null)
-            throw new IllegalArgumentException("Resume не может быть null");
+            throw new IllegalArgumentException("Resume can't be null");
 
         int index = getIndex(r.getUuid());
 
         if (index == -1)
-            System.out.println("Резюме не обновлено, отсутствует в базе данных");
-
-        storage[index] = r;
+            System.out.println("Resume not updated, missing from database");
+        else
+            storage[index] = r;
     }
 
     public void save(Resume r) {
         if (r == null)
-            throw new IllegalArgumentException("Resume не может быть null");
+            throw new IllegalArgumentException("Resume can't be null");
 
         if (size >= STORAGE_LIMIT) {
-            throw new IllegalArgumentException("Хранилище переполнено");
+            throw new IllegalArgumentException("Storage is full");
         }
 
         if (getIndex(r.getUuid()) == -1) {
             storage[size] = r;
             size++;
         } else {
-            throw new IllegalArgumentException("Резюме с uuid" + r.getUuid() + " уже есть в базе данных");
+            throw new IllegalArgumentException("Resume with uuid" + r.getUuid() + " already exists in the database");
         }
     }
 
@@ -58,9 +53,6 @@ public class ArrayStorage extends AbstractArrayStorage {
         }
     }
 
-    public Resume[] getAll() {
-        return Arrays.copyOf(storage, size);
-    }
 
     /**
      * Возвращает индекс найденного элемента, будет исвользоваться в методах класса для исключения дублирования кода
