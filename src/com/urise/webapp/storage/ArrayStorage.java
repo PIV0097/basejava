@@ -2,11 +2,8 @@ package com.urise.webapp.storage;
 
 import com.urise.webapp.model.Resume;
 
-import java.util.Arrays;
-
 /**
  * Array based storage for Resumes
- * Хранилище на основе массива для резюме
  */
 public class ArrayStorage extends AbstractArrayStorage {
 
@@ -53,7 +50,6 @@ public class ArrayStorage extends AbstractArrayStorage {
             size--;
         }
     }
-
 
     /**
      * Возвращает индекс найденного элемента, будет исвользоваться в методах класса для исключения дублирования кода
