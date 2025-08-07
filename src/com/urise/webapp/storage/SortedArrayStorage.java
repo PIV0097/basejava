@@ -19,7 +19,9 @@ public class SortedArrayStorage extends AbstractArrayStorage {
             storage[index] = r;
 
     }
-
+    //r1 r2 r4 r3
+    // 0 1  2
+    //
     @Override
     public void save(Resume r) {
         if (r == null)
@@ -34,22 +36,18 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         if (insertionPoint >= 0)
             throw new IllegalArgumentException("Resume with uuid" + r.getUuid()
                     + " already exists in the database");
-        else {
-            int from = Math.abs(insertionPoint) - 1;
 
-            if (from != size) {
-                for (int i = from; i < size; i++) {
-                    storage[from + 1] = storage[from];
-                }
-            }
-            storage[from] = r;
-            size++;
+        int from = -insertionPoint - 1;//2
+        for (int i = size; i > from; i--) {
+            storage[i] = storage[i - 1];
         }
+
+        storage[from] = r;
+        size++;
+
     }
 
-    // r1 r2 r3
-    // 0  1  2
-    //
+
     @Override
     public void delete(String uuid) {
         if (uuid == null) {
