@@ -47,9 +47,26 @@ public class SortedArrayStorage extends AbstractArrayStorage {
         }
     }
 
+    // r1 r2 r3
+    // 0  1  2
+    //
     @Override
     public void delete(String uuid) {
+        if (uuid == null) {
+            throw new IllegalArgumentException("UUID can't be null");
+        }
 
+        int index = getIndex(uuid);
+        if (index < 0)
+            throw new IllegalArgumentException("Resume with uuid " + uuid +
+                    " already exists in the database");
+        else {
+            for (int i = index; i < size; i++) {
+                storage[i] = storage[i + 1];
+            }
+
+            size--;
+        }
     }
 
     @Override

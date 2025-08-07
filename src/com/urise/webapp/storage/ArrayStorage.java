@@ -40,12 +40,13 @@ public class ArrayStorage extends AbstractArrayStorage {
 
     public void delete(String uuid) {
         if (uuid == null) {
-            throw new IllegalArgumentException("UUID не может быть пустым");
+            throw new IllegalArgumentException("UUID can't be null");
         }
 
         int index = getIndex(uuid);
         if (index == -1)
-            throw new IllegalArgumentException("Резюме с UUID '" + uuid + "' не найдено");
+            throw new IllegalArgumentException("Resume with uuid " + uuid +
+                    " already exists in the database");
         else {
             storage[index] = storage[size - 1];
             storage[size - 1] = null;
