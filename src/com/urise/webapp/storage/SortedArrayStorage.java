@@ -20,9 +20,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
 
     }
 
-    // r1
-    // size 1
-
     @Override
     public void save(Resume r) {
         if (r == null)
@@ -32,12 +29,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
             throw new IllegalArgumentException("Storage is full");
         }
 
-        if (size == 0) {
-            storage[0] = r;
-            size++;
-            return;
-        }
-
         int insertionPoint = getIndex(r.getUuid());
 
         if (insertionPoint >= 0)
@@ -45,12 +36,12 @@ public class SortedArrayStorage extends AbstractArrayStorage {
                     + " already exists in the database");
         else {
             int from = Math.abs(insertionPoint) - 1;
-            Resume[] resumesForShift = Arrays.copyOfRange(storage, from, size - 1);
 
-            for (int i = 0; i < resumesForShift.length; i++) {
-                storage[i + from] = resumesForShift[i];
+            if (from != size) {
+                for (int i = from; i < size; i++) {
+                    storage[from + 1] = storage[from];
+                }
             }
-
             storage[from] = r;
             size++;
         }
