@@ -7,64 +7,17 @@ import java.util.Arrays;
 public class SortedArrayStorage extends AbstractArrayStorage {
 
     @Override
-    public void update(Resume r) {
-        if (r == null)
-            throw new IllegalArgumentException("Resume can't be null");
-
-        int index = getIndex(r.getUuid());
-
-        if (index < 0)
-            System.out.println("Resume not updated, missing from database");
-        else
-            storage[index] = r;
-
-    }
-    //r1 r2 r4 r3
-    // 0 1  2
-    //
-    @Override
-    public void save(Resume r) {
-        if (r == null)
-            throw new IllegalArgumentException("Resume can't be null");
-
-        if (size >= STORAGE_LIMIT) {
-            throw new IllegalArgumentException("Storage is full");
-        }
-
-        int insertionPoint = getIndex(r.getUuid());
-
-        if (insertionPoint >= 0)
-            throw new IllegalArgumentException("Resume with uuid" + r.getUuid()
-                    + " already exists in the database");
-
-        int from = -insertionPoint - 1;//2
-        for (int i = size; i > from; i--) {
-            storage[i] = storage[i - 1];
-        }
-
-        storage[from] = r;
-        size++;
-
+    protected void insertElement(Resume r, int index) {
+        int insertIndex = -index - 1;//
+        System.arraycopy(storage, insertIndex, storage, insertIndex + 1, size - insertIndex);
+        storage[insertIndex] = r;
     }
 
-
     @Override
-    public void delete(String uuid) {
-        if (uuid == null) {
-            throw new IllegalArgumentException("UUID can't be null");
-        }
-
-        int index = getIndex(uuid);
-        if (index < 0)
-            throw new IllegalArgumentException("Resume with uuid " + uuid +
-                    " already exists in the database");
-        else {
-            for (int i = index; i < size; i++) {
-                storage[i] = storage[i + 1];
-            }
-
-            size--;
-        }
+    protected void fillDeletedElement(int index) {
+        int length = size - index - 1;
+        if (length > 0)
+            System.arraycopy(storage, index + 1, storage, index, length);
     }
 
     @Override
